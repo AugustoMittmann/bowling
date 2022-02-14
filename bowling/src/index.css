@@ -3,16 +3,35 @@
   border: 1px solid red;
   height: 50px;
   width: 520px;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(11, 1fr);
 }
 
 .frame {
   display: grid;
   width: 50px;
   border: 1px solid black;
-  grid-template-columns: repeat(2, 50%);
+  grid-template-columns: 1fr 20px;
   grid-template-rows: repeat(2, 50%);
   text-align: center;
+}
+.frame_especial {
+  display: grid;
+  width: 50px;
+  border: 1px solid black;
+  grid-template-columns: 30% 35% 35%;
+  grid-template-rows: repeat(2, 50%);
+  text-align: center;
+}
+.round_1_especial {
+  width: 17px;
+}
+.round_2_especial {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  width: 100%;
+}
+.result_especial {
+  grid-column: span 3;
 }
 .round_2 {
   border-bottom: 1px solid black;
@@ -21,7 +40,6 @@
 .result {
   grid-column: span 2;
 }
-
 
 .buttons {
   margin-top: 50px;
