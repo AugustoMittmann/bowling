@@ -59,15 +59,31 @@ function App() {
         }
       }
     } else {
-      if(buttonClick !== 10){
+      if(buttonClick === 10){ //strike
+        console.log('strike');
+        if(firstNumber[frame-1] + secondNumber[frame-1] === 10){
+          if(result.length === 0) {
+            setResult(result => [...result, [firstNumber[frame-1] + secondNumber[frame-1] + 10 ]])
+          } else {
+            setResult(result => [...result, [firstNumber[frame-1] + secondNumber[frame-1] + 10 + parseInt(result[result.length-1])]])
+          }
+        }
+      } else if(firstNumber[frame] + buttonClick === 10) { //spare
+        console.log('spare');
+      } else {  //jogada normal
         console.log(-1);
+        if(firstNumber[frame-1] + secondNumber[frame-1] === 10){
+          if(result.length === 0) {
+            setResult(result => [...result, [firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]]])
+          } else {
+            setResult(result => [...result, parseInt(result[result.length-1]) + [firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]]])
+          }
+        }
         if(result.length === 0) {
           setResult(result => [...result, [firstNumber[frame] + buttonClick]])
         } else {
           setResult(result => [...result, [firstNumber[frame] + buttonClick + parseInt(result[result.length-1])]])
         }
-      } else {
-        console.log('nada');
       }
     }
     console.log('-------------');
@@ -104,7 +120,7 @@ function App() {
 
 return (
 <>
-<section className='container'>
+<div className='container'>
   {
     arrayFrames.map((value) => {
       const frameClassName = `frame frame_${value}`
@@ -129,7 +145,7 @@ return (
           <div className='result'> {result[9]}</div>
         </div>
       }
-    </section>
+    </div>
 
     <div className='buttons'>
       {
