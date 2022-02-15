@@ -21,7 +21,16 @@ function App() {
         console.log(2);
         if(secondNumber[secondNumber.length-3] === 10) {
           console.log(3);
-          if(buttonClick === 10){
+          if (firstNumber[frame] + buttonClick === 10){
+            console.log('bla');
+            if(result.length === 0) {
+              setResult(result => [...result, [30]])
+              setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
+            } else {
+              setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
+              setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
+            }
+          } else if(buttonClick === 10){
             setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
             if(firstNumber[10] !== undefined) {
               setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
@@ -33,7 +42,14 @@ function App() {
           }
         } else {
           console.log(-3);
-          if(buttonClick !== 10){
+          if (firstNumber[frame] + buttonClick === 10){
+            if(result.length === 0) {
+              setResult(result => [...result, [firstNumber[frame] + 20]])
+            } else {
+              setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
+            }
+            setResult(result => [...result, [firstNumber[frame] + buttonClick + 10 + parseInt(result[result.length-1])]])
+          } else if(buttonClick !== 10){
             if(result.length === 0) {
               setResult(result => [...result, [firstNumber[frame] + 20]])
             } else {
@@ -47,8 +63,13 @@ function App() {
         }  
       } else {
         console.log(-2);
-        if(buttonClick !== 10) {
-          console.log(firstNumber[frame] + buttonClick + 10 + parseInt(result[result.length-1]));
+        if (firstNumber[frame] + buttonClick === 10){
+          if(result.length === 0) {
+            setResult(result => [...result, [firstNumber[frame] + buttonClick + 10]])
+          } else {
+            setResult(result => [...result, [firstNumber[frame] + buttonClick + 10 + parseInt(result[result.length-1])]])
+          }
+        } else if(buttonClick !== 10) {
           if(result.length === 0) {
             setResult(result => [...result, [firstNumber[frame] + buttonClick + 10]])
             setResult(result => [...result, [firstNumber[frame] + buttonClick + parseInt(result[result.length-1])]])
@@ -76,7 +97,7 @@ function App() {
           if(result.length === 0) {
             setResult(result => [...result, [firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]]])
           } else {
-            setResult(result => [...result, parseInt(result[result.length-1]) + [firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]]])
+            setResult(result => [...result, parseInt(result[result.length-1]) + firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]])
           }
         }
         if(result.length === 0) {
