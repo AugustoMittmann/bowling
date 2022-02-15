@@ -23,6 +23,9 @@ function App() {
           console.log(3);
           if(buttonClick === 10){
             setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
+            if(firstNumber[10] !== undefined) {
+              setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
+            }
           } else {
             setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
             setResult(result => [...result, [firstNumber[frame] + buttonClick + 10 + parseInt(result[result.length-1])]])
@@ -31,6 +34,11 @@ function App() {
         } else {
           console.log(-3);
           if(buttonClick !== 10){
+            if(result.length === 0) {
+              setResult(result => [...result, [firstNumber[frame] + 20]])
+            } else {
+              setResult(result => [...result, [firstNumber[frame] + 20 + parseInt(result[result.length-1])]])
+            }
             setResult(result => [...result, [firstNumber[frame] + buttonClick + 10 + parseInt(result[result.length-1])]])
             setResult(result => [...result, [firstNumber[frame] + buttonClick + parseInt(result[result.length-1])]])
           } else {
@@ -67,33 +75,40 @@ function App() {
 
 
   function click(buttonClick) {
-    if(round === 1) {
-      if(buttonClick === 10) {  //strike
-        setFirstNumber(firstNumber => [...firstNumber, ''])
+    if(secondNumber[9] === 10) {
+      setFirstNumber(firstNumber => [...firstNumber, buttonClick])
+      if(firstNumber[10] !== undefined) {
+        resultados(buttonClick)
+      }
+    } else {
+      if(round === 1) {
+        if(buttonClick === 10) {  //strike
+          setFirstNumber(firstNumber => [...firstNumber, ''])
+          setSecondNumber(secondNumber => [...secondNumber, buttonClick])
+          setFrame(frame+1)
+          resultados(buttonClick)
+        } else {
+          setFirstNumber(firstNumber => [...firstNumber, buttonClick])
+          setRound(2)
+        }
+      }
+      
+      if(round === 2) {
         setSecondNumber(secondNumber => [...secondNumber, buttonClick])
         setFrame(frame+1)
+        setRound(1)
         resultados(buttonClick)
-      } else {
-        setFirstNumber(firstNumber => [...firstNumber, buttonClick])
-        setRound(2)
       }
-    }
-    
-    if(round === 2) {
-      setSecondNumber(secondNumber => [...secondNumber, buttonClick])
-      setFrame(frame+1)
-      setRound(1)
-      resultados(buttonClick)
     }
   }
 
-  return (
-    <>
-    <section className='container'>
-      {
-        arrayFrames.map((value) => {
-          const frameClassName = `frame frame_${value}`
-          return <div key={value} className={frameClassName}>
+return (
+<>
+<section className='container'>
+  {
+    arrayFrames.map((value) => {
+      const frameClassName = `frame frame_${value}`
+            return <div key={value} className={frameClassName}> 
             <div className='round_1'>{firstNumber[value]}</div>
             <div className='round_2'>{secondNumber[value]}</div>
             <div className='result'> {result[value]}</div>
@@ -105,9 +120,9 @@ function App() {
         <div className='frame_especial'>
           <div className='round_1_especial'>{secondNumber[9]}</div>
           <div className='round_2_especial'>{firstNumber[10]}</div>
-          <div className='round_2_especial'>{secondNumber[10]}</div>
+          <div className='round_2_especial'>{firstNumber[11]}</div>
           <div className='result_especial'> {result[9]}</div>
-        </div> :
+          </div> :
         <div className='frame'>
           <div className='round_1'>{firstNumber[9]}</div>
           <div className='round_2'>{secondNumber[9]}</div>
