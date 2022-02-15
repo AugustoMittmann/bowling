@@ -4,14 +4,11 @@ import './App.css';
 
 function App() {
   const [arrayFrames, setArrayFrames] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]) //display
-  const [renderFinal, setRenderFinal] = useState([1])
-
   const [frame, setFrame] = useState(0)
   const [round, setRound] = useState(1)
   const [firstNumber, setFirstNumber] = useState([])
   const [secondNumber, setSecondNumber] = useState([])
   const [result, setResult] = useState([])
-  const [resultado, setResultado] = useState([0])
 
 
   function resultados(buttonClick) {
@@ -153,7 +150,7 @@ return (
         })
       }
       {
-        secondNumber[9] === 10 ? 
+        secondNumber[9] === 10 || secondNumber[9] + firstNumber[9] === 10 ? 
         <div className='frame_especial'>
           <div className='round_1_especial'>{secondNumber[9]}</div>
           <div className='round_2_especial'>{firstNumber[10]}</div>
