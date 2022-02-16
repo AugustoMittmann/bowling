@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Quadra from './Quadra'
 
@@ -10,6 +10,7 @@ function App() {
   const [secondNumber, setSecondNumber] = useState([])  //segunda pontuação de cada frame
   const [result, setResult] = useState([])  //resultado de cada frame
   const [qntdPinos, setQntdPinos] = useState(0) //setado para mostrar na UI
+  const [score, setScore] = useState(0)
 
 
   function resultados(buttonClick) {
@@ -55,10 +56,16 @@ function App() {
             } else {  //se faz 3 strikes e já foram computados outros resultados
               setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
             }
+            if(firstNumber[10] !== undefined) {
+              setResult(result => [...result, [30 + parseInt(result[result.length-1])]])
+            }
           }
         } 
       } else {  //se fez 2 strikes
         console.log(-2);
+        if(firstNumber[10] !== undefined) { //se fez 2 strikes e está no ultimo frame
+          setResult(result => [...result, [20 + buttonClick + parseInt(result[result.length-1])]])
+        }
         if (firstNumber[frame] + buttonClick === 10){ //se fez um spare depois de fazer 2 strikes seguidos
           if(result.length === 0) { //se não foi computado nenhum resultado anterior depois de fazer 2 strikes e 1 spare
             setResult(result => [...result, [firstNumber[frame] + buttonClick + 10]])
@@ -104,7 +111,12 @@ function App() {
           }
         }
         if(result.length === 0) { //se fez uma jogada normal sem ter feito spare ou strike antes e agora (jogada normal)
-          setResult(result => [...result, [firstNumber[frame] + buttonClick]])
+          console.log('e');
+          if(firstNumber[frame-1] + secondNumber[frame-1] === 10){  //se fez um spare na primeira rodada (ainda não vai estar computado no result)
+            setResult(result => [...result, [firstNumber[frame] + buttonClick + parseInt(result[result.length-1])]])
+          } else {
+            setResult(result => [...result, [firstNumber[frame] + buttonClick]])
+          }
         } else {
           setResult(result => [...result, [firstNumber[frame] + buttonClick + parseInt(result[result.length-1])]])
         }
@@ -112,8 +124,8 @@ function App() {
     }
     console.log('-------------');
   }
-
-
+  
+  
   function click(buttonClick) { //quando faz uma jogada
     setQntdPinos(buttonClick) //seta os pinos na UI
     if(secondNumber[9] === 10) {  //se faz strike no ultimo frame
@@ -153,14 +165,22 @@ function App() {
         setQntdPinos(0) //seta todos os pinos
       }}
   }
-return (
-<>
-<Quadra qntdPinos={qntdPinos}/>
+
+  useEffect(() => {
+    if(result.length>10) {
+      setScore(result[9])
+    } else {
+      setScore(result[result.length-1])
+    }
+  }, [result])
+  return (
+    <>
+<Quadra qntdPinos={qntdPinos} score={score}/>
 <div className='container'>
   {
     arrayFrames.map((value) => {
       const frameClassName = `frame frame_${value}`
-            return <div key={value} className={frameClassName}> 
+      return <div key={value} className={frameClassName}> 
             <div className='round_1'>{firstNumber[value]}</div>
             <div className='round_2'>{secondNumber[value]}</div>
             <div className='result'> {result[value]}</div>
@@ -182,7 +202,6 @@ return (
         </div>
       }
     </div>
-
 
 
     <div className='buttons'>
