@@ -1,16 +1,15 @@
-import { render } from '@testing-library/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Quadra from './Quadra'
 
 function App() {
   const [arrayFrames, setArrayFrames] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]) //display
-  const [frame, setFrame] = useState(0)
-  const [round, setRound] = useState(1)
-  const [firstNumber, setFirstNumber] = useState([])
-  const [secondNumber, setSecondNumber] = useState([])
-  const [result, setResult] = useState([])
-  const [qntdPinos, setQntdPinos] = useState(0)
+  const [frame, setFrame] = useState(0) //frame atual na partida
+  const [round, setRound] = useState(1) //round (poder ser 1 ou 2)
+  const [firstNumber, setFirstNumber] = useState([])  //primeira pontuação de cada frame
+  const [secondNumber, setSecondNumber] = useState([])  //segunda pontuação de cada frame
+  const [result, setResult] = useState([])  //resultado de cada frame
+  const [qntdPinos, setQntdPinos] = useState(0) //setado para mostrar na UI
 
 
   function resultados(buttonClick) {
@@ -139,6 +138,7 @@ function App() {
           setSecondNumber(secondNumber => [...secondNumber, buttonClick]) //seta o secondNumber para 10 (strike)
           setFrame(frame+1) //após fazer um strike, seta para o proximo frame
           resultados(buttonClick) //apresenta os resultados
+          setQntdPinos(0) //seta todos os pinos
         } else {  //se não fez um strike na primeira rodada
           setFirstNumber(firstNumber => [...firstNumber, buttonClick])  //atribui os pontos para o firstNumber
           setRound(2) //seta para o round 2
@@ -150,6 +150,7 @@ function App() {
         setFrame(frame+1) //seta o proximo frame
         setRound(1) //seta o round para a jogada 1
         resultados(buttonClick) //mostra resultados
+        setQntdPinos(0) //seta todos os pinos
       }}
   }
 return (
@@ -167,13 +168,13 @@ return (
         })
       }
       {
-        secondNumber[9] === 10 || secondNumber[9] + firstNumber[9] === 10 ? 
+        secondNumber[9] === 10 || secondNumber[9] + firstNumber[9] === 10 ? //se fez strike ou spare no frame 10 renderiza o "frame" especial
         <div className='frame_especial'>
           <div className='round_1_especial'>{secondNumber[9]}</div>
           <div className='round_2_especial'>{firstNumber[10]}</div>
           <div className='round_2_especial'>{firstNumber[11]}</div>
           <div className='result_especial'> {result[9]}</div>
-          </div> :
+          </div> :  //se não, renderiza um frame normal
         <div className='frame'>
           <div className='round_1'>{firstNumber[9]}</div>
           <div className='round_2'>{secondNumber[9]}</div>
@@ -182,7 +183,10 @@ return (
       }
     </div>
 
+
+
     <div className='buttons'>
+      <button className='btn' onClick={() => click(0)}>{0}</button>
       {
         arrayFrames.map((value) => {
           return <button key={value} className='btn' onClick={() => click(value+1)}>{value+1}</button>

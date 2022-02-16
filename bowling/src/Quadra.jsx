@@ -7,18 +7,22 @@ const Quadra = ({qntdPinos}) => {
   const [pinos, setPinos] = useState([
     [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], 
   ])
-/*
+
   useEffect(() => {
     console.log(qntdPinos);
     setPinos(pinos => pinos.map((value, index) => {
       if(index >= 10 - qntdPinos) {
         return null
       } else {
-        return value
+        if(qntdPinos === 0) {
+          return index+1
+        } else {
+          return value
+        }
       }
     }))
   }, [qntdPinos])
-*/
+
   return(
     <>
     <div className="background">
