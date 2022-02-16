@@ -125,8 +125,21 @@ function App() {
     console.log('-------------');
   }
   
-  
+  function random() {
+    const max = 10
+    const button = getRandomInt(0, max)
+    click(button)
+  }
+  function getRandomInt(min, max) {
+    min = Math.ceil(0)
+    max = Math.floor(10)
+    return Math.floor(Math.random()*(max-min)) + min
+  }
+
   function click(buttonClick) { //quando faz uma jogada
+    if(firstNumber[frame] + buttonClick > 10){
+      buttonClick = 10-firstNumber[frame]
+    }
     setQntdPinos(buttonClick) //seta os pinos na UI
     if(secondNumber[9] === 10) {  //se faz strike no ultimo frame
       setFirstNumber(firstNumber => [...firstNumber, buttonClick])
@@ -175,8 +188,11 @@ function App() {
   }, [result])
   return (
     <>
-<Quadra qntdPinos={qntdPinos} score={score}/>
-<div className='container'>
+    <div className="background">
+    <div className="score">Score:</div>
+    <div className="score pontos">{score}</div>
+    <Quadra qntdPinos={qntdPinos} score={score}/>
+    <div className='container'>
   {
     arrayFrames.map((value) => {
       const frameClassName = `frame frame_${value}`
@@ -212,6 +228,8 @@ function App() {
         })
       }
       <button className='btn' onClick={() => click(10)}>{10}</button>
+    </div>
+      <button className='btn_especial' onClick={() => random()}>Jogar!</button>
     </div>
     </>
   )

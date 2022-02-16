@@ -9,34 +9,36 @@
   display: grid;
   width: 50px;
   height: 50px;
-  border: 1px solid black;
+  border: 1px solid white;
   grid-template-columns: 1fr 20px;
   grid-template-rows: repeat(2, 50%);
   text-align: center;
+  color: white;
 }
 .frame_especial {
   display: grid;
   width: 50px;
-  border: 1px solid black;
+  border: 1px solid white;
   grid-template-columns: 30% 35% 35%;
   grid-template-rows: repeat(2, 50%);
   text-align: center;
   height: 50px;
+  color: white;
 }
 .round_1_especial {
   width: 17px;
 }
 .round_2_especial {
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
   width: 100%;
 }
 .result_especial {
   grid-column: span 3;
 }
 .round_2 {
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
 }
 .result {
   grid-column: span 2;
@@ -52,15 +54,23 @@
   width: 50px;
 }
 
-
+.btn_especial {
+  margin: 10px;
+  height: 100px;
+  width: 200px;
+  grid-column: 3;
+  border-radius: 20px;
+  background-color: brown;
+  color: white;
+  font-size: 50px;
+}
 
 
 .background {
   background-color: green;
-  width: 700px;
-  height: 500px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 350px 220px 1fr;
+  grid-template-rows: repeat(3, 1fr);
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
@@ -70,6 +80,7 @@
   width: 200px;
   background-color: brown;
   display: grid;
+  grid-row: span 3;
   grid-template-columns: repeat(8, 25px);
   grid-template-rows: repeat(9, 50px);
 }
@@ -107,4 +118,7 @@
   margin: 30px;
   height: 100px;
   font-size: 90px;
+}
+.pontos {
+  grid-row: 2;
 }

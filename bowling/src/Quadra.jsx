@@ -24,8 +24,6 @@ const Quadra = ({qntdPinos, score}) => {
 
   return(
     <>
-    <div className="background">
-      <div className="score">{score}</div>
       <div className="quadra">
         {
           pinos.map(pinos => {
@@ -35,7 +33,6 @@ const Quadra = ({qntdPinos, score}) => {
         }
         <img className="ball" src={bola}/>
       </div>
-    </div>
     </>
   )
 }
