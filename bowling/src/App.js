@@ -88,6 +88,13 @@ function App() {
         }
       } else if(firstNumber[frame] + buttonClick === 10) { //spare
         console.log('spare');
+        if(firstNumber[frame-1] + secondNumber[frame-1] === 10){
+          if(result.length === 0) {
+            setResult(result => [...result, [firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]]])
+          } else {
+            setResult(result => [...result, parseInt(result[result.length-1]) + firstNumber[frame-1] + firstNumber[frame] + secondNumber[frame-1]])
+          }
+        }
       } else {  //jogada normal
         console.log(-1);
         if(firstNumber[frame-1] + secondNumber[frame-1] === 10){
@@ -110,11 +117,33 @@ function App() {
 
   function click(buttonClick) {
     if(secondNumber[9] === 10) {
+      console.log('ok');
       setFirstNumber(firstNumber => [...firstNumber, buttonClick])
       if(firstNumber[10] !== undefined) {
         resultados(buttonClick)
       }
-    } else {
+    } else if(firstNumber[9] + secondNumber[9] === 10) {
+      console.log('oi');
+      setFirstNumber(firstNumber => [...firstNumber, secondNumber[9]])
+      setFirstNumber(firstNumber => [...firstNumber, buttonClick])
+      setSecondNumber(secondNumber => secondNumber.map((value, index) => {
+        if(index === 9) {
+          console.log('trocou');
+          return firstNumber[9]
+        } else {
+          return value
+        }
+      }))
+      setFirstNumber(firstNumber => firstNumber.map((value, index) => {
+        if(index === 9) {
+          console.log('trocou');
+          return (10 - firstNumber[9])
+        } else {
+          return value
+        }
+      }))
+      setResult(result => [...result, [10 + buttonClick + parseInt(result[result.length-1])]])
+    } else{
       if(round === 1) {
         if(buttonClick === 10) {  //strike
           setFirstNumber(firstNumber => [...firstNumber, ''])
@@ -132,8 +161,7 @@ function App() {
         setFrame(frame+1)
         setRound(1)
         resultados(buttonClick)
-      }
-    }
+      }}
   }
 
 return (
