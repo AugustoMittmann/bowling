@@ -156,7 +156,7 @@ function App() {
         return index === 9 ? 10-firstNumber[9] : value
       }))
       setResult(result => [...result, [10 + buttonClick + parseInt(result[result.length-1])]])  //seta o resultado 
-    } else{
+    } else {
       if(round === 1) { //verifica se é o "round 1", ou seja, vamos preencher o firstNumber
         if(buttonClick === 10) {  //se fez um strike
           setFirstNumber(firstNumber => [...firstNumber, '']) //seta o firstNumber para ''
@@ -218,7 +218,6 @@ function App() {
         </div>
       }
     </div>
-
 
     <div className='buttons'>
       <button className='btn' onClick={() => click(0)}>{0}</button>
