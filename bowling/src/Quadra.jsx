@@ -2,22 +2,17 @@ import react, { useEffect, useState } from "react";
 import pino from './pino.png'
 import bola from './bola.png'
 
-const Quadra = ({qntdPinos, score}) => {
+const Quadra = ({qntdPinos}) => {
 
   const [pinos, setPinos] = useState([
-    [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], 
+    [1], [2], [3], [4], [5], [6], [7], [8], [9], [10] 
   ])
 
   useEffect(() => {
     setPinos(pinos => pinos.map((value, index) => {
-      if(index >= 10 - qntdPinos) {
-        return null
-      } else {
-        if(qntdPinos === 0) {
-          return index+1
-        } else {
-          return value
-        }
+      if(index >= 10 - qntdPinos) { return null } 
+      else {
+        if(qntdPinos === 0) { return index+1 } else { return value }
       }
     }))
   }, [qntdPinos])
