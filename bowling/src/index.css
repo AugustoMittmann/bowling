@@ -158,26 +158,38 @@
   border-top-color: #777;
   border-right-color: #FFF;
   border-bottom-color: #777;
-  animation: spin 1s linear infinite;
+  animation: spin 0.2s linear infinite;
 }
 @keyframes spin {
   0% {
-    border-left-color: #000;
-    border-top-color: #000;
-    border-right-color: #000;
-    border-bottom-color: #000;
-  }
-  50% {
     border-left-color: #99CCFF;
     border-top-color: #FF99CC;
     border-right-color: #99FF00;
     border-bottom-color: #FFFF33;
   }
+  25% {
+    border-left-color: #FFFF33;
+    border-top-color: #99CCFF;
+    border-right-color: #FF99CC;
+    border-bottom-color: #99FF00;
+  }
+  50% {
+    border-left-color: #99FF00;
+    border-top-color: #FFFF33;
+    border-right-color: #99CCFF;
+    border-bottom-color: #FF99CC;
+  }
+  75% {
+    border-left-color: #FF99CC;
+    border-top-color: #99FF00;
+    border-right-color: #FFFF33;
+    border-bottom-color: #99CCFF;
+  }
   100% {
-    border-left-color: #000;
-    border-top-color: #000;
-    border-right-color: #000;
-    border-bottom-color: #000;
+    border-left-color: #99CCFF;
+    border-top-color: #FF99CC;
+    border-right-color: #99FF00;
+    border-bottom-color: #FFFF33;
   }
 }
 
