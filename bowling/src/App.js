@@ -7,10 +7,16 @@ function App() {
   const [jogada, setJogada] = useState([])
   const [display, setDisplay] = useState([])
   const [round, setRound] = useState()
+  const [recorde, setRecorde] = useState([])
   const arrayFrames = [0, 1, 2, 3, 4, 5, 6, 7, 8]
   const arrayButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const resultado = useMemo(() => {
+    return result(jogada)
+  }, [jogada])
+  const sorted = recorde.sort((a, b) => b - a)  //não entendi pq isso ta funcionando
 
   function novoJogo() {
+    setRecorde(recorde => [...recorde, resultado[resultado.length-1]])
     setJogada([])
     setDisplay([])
     setRound()
@@ -21,17 +27,24 @@ function App() {
     round === 0 ? setRound(1) : buttonClick === 10 ? setDisplay(display => [...display, '']) : setRound(0)  //se fizer strike ele seta um '' antes, se fizer um spare (0,10) ele reage normal
     setDisplay(display => [...display, buttonClick])  //seta display, array usado para o display
   }
-  
-  const resultado = useMemo(() => {
-    return result(jogada)
-  }, [jogada])
-
 
   return (
-    <>
+  <>
     <div className="background">
-    <div className="score">Score: {resultado[9] || resultado[resultado.length-1]}</div>
-    <Quadra qntdPinos={jogada[jogada.length-1]}/>
+
+      <div className="score">Score: {resultado[9] || resultado[resultado.length-1]}</div>
+
+      <div className='historico'>
+        <div className='title'>Placar de Recordes:</div>
+        <div className='cada_recorde recorde_1'>{recorde[0]}</div>
+        <div className='cada_recorde recorde_2'>{recorde[1]}</div>
+        <div className='cada_recorde recorde_3'>{recorde[2]}</div>
+        <div className='cada_recorde recorde_4'>{recorde[3]}</div>
+        <div className='cada_recorde recorde_4'>{recorde[4]}</div>
+      </div>
+
+      <Quadra qntdPinos={jogada[jogada.length-1]}/>
+
     <div className='container'>
     {
       arrayFrames.map((value, index) => {
@@ -74,10 +87,10 @@ function App() {
         })
       }
     </div>
-    <div>
+    <div className='novo_jogo'>
       <button className='btn_especial' onClick={() => novoJogo()}>Novo Jogo</button>
     </div>
-    <div>
+    <div className='jogar_aleatorio'>
       <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (round === 0 ? 10-jogada[jogada.length-1] : 10)))}>Jogar aleatório</button>
     </div>
     </div>
