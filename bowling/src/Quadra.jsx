@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import pino from './pino.png'
 import bola from './bola.png'
 
