@@ -69,7 +69,7 @@ function App() {
       <div className='frame_especial'>
         <div className='round_1_especial'>{display[18]}</div>
         <div className='round_2_especial'>{display[19]}</div>
-        <div className='round_2_especial'>{display[20]}</div>
+        <div className='round_2_especial'>{display[21] === 10 ? display[21] : display[20]}</div>
         <div className='result_especial'> {resultado[9]}</div>
       </div> :
       <div className='frame'>
