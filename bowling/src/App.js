@@ -29,7 +29,7 @@ function App() {
   }
 
   return (
-  <>
+  <section>
     <div className="background">
 
       <div className="score">Score: {resultado[9] || resultado[resultado.length-1]}</div>
@@ -94,7 +94,7 @@ function App() {
       <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (round === 0 ? 10-jogada[jogada.length-1] : 10)))}>Jogar aleatório</button>
     </div>
     </div>
-    </>
+    </section>
   )
 }
 
