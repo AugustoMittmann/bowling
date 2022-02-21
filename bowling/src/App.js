@@ -16,7 +16,7 @@ function App() {
   const sorted = recorde.sort((a, b) => b - a)  //não entendi pq isso ta funcionando
 
   function novoJogo() {
-    setRecorde(recorde => [...recorde, resultado[resultado.length-1]])
+    setRecorde(recorde => [...recorde, resultado[9] || resultado[resultado.length-1]])
     setJogada([])
     setDisplay([])
     setRound()

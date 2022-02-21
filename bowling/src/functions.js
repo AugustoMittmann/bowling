@@ -1,4 +1,4 @@
-export const result = (arrayPontos) => {
+const result = (arrayPontos) => {
   let resultado = []
   let round = 0
   
@@ -26,3 +26,5 @@ export const result = (arrayPontos) => {
   })
   return resultado
 }
+
+module.exports = { result }
