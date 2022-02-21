@@ -1,28 +1,22 @@
 const result = (arrayPontos) => {
   let resultado = []
-  let round = 0
-  
-  arrayPontos.map((value, index) => {
-      const aux = (resultado[resultado.length-1] || 0) //salva o resultado da soma com somente 1 numero do frame
-      
-      if(round === 0) {  //primeira jogada
-        if(value === 10) {  //strike
-          resultado.push(aux + value + (arrayPontos[index+1] || 0) + (arrayPontos[index+2] || 0)) //push em uma soma: soma anterior + 10 + 2 proximos valores
-        } else {
-          resultado.push(aux+value) //seta a soma com os 2 pontos dos frames
-          round = 1 //alterna round
-        }
-      }
-      
-      else {  //segunda jogada
-        resultado.pop() //remove o resultado anterior 
-        if(arrayPontos[index-1] + value === 10) { //spare
-          resultado.push(aux + value + (arrayPontos[index+1] || 0)) //efetua a soma com o proximo valor
-        } else {
-          resultado.push(aux+value) //efetua a soma normal
-        }
-        round = 0 //alterna round
-      }
+  console.log(arrayPontos);
+  arrayPontos.forEach((value, index) => {
+    if(value[0] === 10) { // strike
+
+      resultado.push(
+        (resultado[index-1] || 0) +   //resultado anterior
+        value[0] +  //valor da posição 1
+        (value[1] || 0) +   //valor da posição 2 se diferente de 0
+        (arrayPontos[index+1] !== undefined ? arrayPontos[index+1][0] + //  se tiver algum numero no prox frame, soma a posição 1 
+        (arrayPontos[index+1][0] === 10 ? arrayPontos[index+2] !== undefined ? arrayPontos[index+2][0] : 0 : arrayPontos[index+1][1] || 0) : 0) //se tiver algum numero no prox frame, soma a posição 2 ou 0
+      )
+
+    } else if(value[0] + value[1] === 10) { //spare
+      resultado.push((resultado[index-1] || 0) + value[0] + (value[1] || 0) + (arrayPontos[index+1] !== undefined ? arrayPontos[index+1][0] : 0))
+    } else {  //jogada normal
+      resultado.push((resultado[index-1] || 0) + value[0] + (value[1] || 0))
+    }
   })
   return resultado
 }

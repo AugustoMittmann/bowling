@@ -4,29 +4,46 @@ import Quadra from './Quadra'
 const { result } = require('./functions')
 
 function App() {
-  const [jogada, setJogada] = useState([])
-  const [display, setDisplay] = useState([])
-  const [round, setRound] = useState()
+  const [prevJogadas, setPrevJogadas] = useState([])
   const [recorde, setRecorde] = useState([])
   const arrayFrames = [0, 1, 2, 3, 4, 5, 6, 7, 8]
   const arrayButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const resultado = useMemo(() => {
-    return result(jogada)
-  }, [jogada])
+    return result(prevJogadas)
+  }, [prevJogadas])
   const sorted = recorde.sort((a, b) => b - a)  //não entendi pq isso ta funcionando
 
   function novoJogo() {
     setRecorde(recorde => [...recorde, resultado[9] || resultado[resultado.length-1]])
-    setJogada([])
-    setDisplay([])
-    setRound()
+    setPrevJogadas([])
   }
 
   function click(buttonClick) {
-    setJogada(jogada => [...jogada, buttonClick]) //seta a jogada (usada para enviar para a função que faz os cálculos)
-    round === 0 ? setRound(1) : buttonClick === 10 ? setDisplay(display => [...display, '']) : setRound(0)  //se fizer strike ele seta um '' antes, se fizer um spare (0,10) ele reage normal
-    setDisplay(display => [...display, buttonClick])  //seta display, array usado para o display
+    setPrevJogadas(prevJogadas => {
+      const ultimaJogada = prevJogadas[prevJogadas.length - 1]; //ultimaJogada recebe o index da ultima jogada
+      const round = (() => {  
+        if (!ultimaJogada) return 0;  //se não tem nada
+        if (ultimaJogada.length === 2) return 0;  //se já foram preenchidos as 2 jogadas
+        if (ultimaJogada[0] === 10) return 0; //se fez um strike antes
+      
+        return 1; //senão, retorna para a 2 jogada
+      })();
+      // Verificar o round ficou mais complexo que imaginei, mas acho que funcionaria
+    
+    
+      if (round === 0) {
+        return [...prevJogadas, [buttonClick]]; //se o round for 0, adiciona os pontos
+      } else {  //se o round for 1, ou seja, segunda jogada
+        return prevJogadas.map((jogada, index) => { //map no histórico de jogadas
+          const isLast = index === prevJogadas.length - 1;  //encontra a ultima posição
+          if (!isLast) return jogada; //se não for a ultima jogada, retorna o que já tinha
+          return [...jogada, buttonClick] //se for a ultima jogada, retorna a nova pontuação
+        })
+      }
+    })
   }
+
+  useEffect(() => {console.log(prevJogadas)}, [prevJogadas])
 
   return (
   <section>
@@ -43,38 +60,44 @@ function App() {
         <div className='cada_recorde recorde_4'>{recorde[4]}</div>
       </div>
 
-      <Quadra qntdPinos={jogada[jogada.length-1]}/>
+      <Quadra qntdPinos={0}/>
 
     <div className='container'>
     {
       arrayFrames.map((value, index) => {
         const frameClassName = `frame frame_${value}`
         return <div key={value} className={frameClassName}> 
-          <div className='round_1'>{display[(index*2)]}</div>
-          <div className='round_2'>{display[(index*2)+1]}</div>
+        {
+          prevJogadas[index] !== undefined ? prevJogadas[index][0] === 10 ? 
+            <><div className='round_1'>{''}</div> 
+            <div className='round_2'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][0]}</div></> :
+            <><div className='round_1'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][0]}</div>
+            <div className='round_2'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][1]}</div></> : null
+        }
           <div className='result'> {resultado[value]}</div>
         </div>
       })
     }
 
     {
-      display[19] === 10 ?
+      prevJogadas[9] !== undefined ? prevJogadas[9][0] === 10 || prevJogadas[9][0] + prevJogadas[9][1] === 10 ?
       <div className='frame_especial'>
-        <div className='round_1_especial'>{display[19]}</div>
-        <div className='round_2_especial'>{display[21] === 10 ? display[21] : display[20]}</div>
-        <div className='round_2_especial'>{display[23] === 10 ? display[23] : display[22]}</div>
+        <div className='round_1_especial'>{prevJogadas[9][0] !== undefined ? prevJogadas[9][0] : null}</div>
+        <div className='round_2_especial'>{prevJogadas[9][0] === 10 ? (prevJogadas[10] !== undefined ? prevJogadas[10][0] : null) : prevJogadas[9][1]}</div>
+
+        <div className='round_2_especial'>{
+          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : prevJogadas[10][1]) : null
+        }</div>
+
         <div className='result_especial'> {resultado[9]}</div>
       </div> 
-      : display[18] + display[19] === 10 ?
-      <div className='frame_especial'>
-        <div className='round_1_especial'>{display[18]}</div>
-        <div className='round_2_especial'>{display[19]}</div>
-        <div className='round_2_especial'>{display[21] === 10 ? display[21] : display[20]}</div>
-        <div className='result_especial'> {resultado[9]}</div>
-      </div> :
-      <div className='frame'>
-        <div className='round_1'>{display[18]}</div>
-        <div className='round_2'>{display[19]}</div>
+      : <div className='frame'>
+      <div className='round_1'>{prevJogadas[9] !== undefined ? prevJogadas[9][0] : null}</div>
+      <div className='round_2'>{prevJogadas[9] !== undefined ? prevJogadas[9][1] : null}</div>
+      <div className='result'> {resultado[9]}</div>
+    </div> : <div className='frame'>
+        <div className='round_1'>{prevJogadas[9] !== undefined ? prevJogadas[9][0] : null}</div>
+        <div className='round_2'>{prevJogadas[9] !== undefined ? prevJogadas[9][1] : null}</div>
         <div className='result'> {resultado[9]}</div>
       </div>
     }
@@ -91,7 +114,7 @@ function App() {
       <button className='btn_especial' onClick={() => novoJogo()}>Novo Jogo</button>
     </div>
     <div className='jogar_aleatorio'>
-      <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (round === 0 ? 10-jogada[jogada.length-1] : 10)))}>Jogar aleatório</button>
+      <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (10)))}>Jogar aleatório</button>
     </div>
     </div>
     </section>

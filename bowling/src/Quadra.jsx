@@ -10,9 +10,14 @@ const Quadra = ({qntdPinos}) => {
 
   useEffect(() => {
     setPinos(pinos => pinos.map((value, index) => {
-      if(index >= 10 - qntdPinos) { return null } 
-      else {
-        if(qntdPinos === 0) { return index+1 } else { return value }
+      if(index >= 10 - qntdPinos) { 
+        return null 
+      } else {
+        if(qntdPinos === 0) { 
+          return index+1 
+        } else { 
+          return value 
+        }
       }
     }))
   }, [qntdPinos])
@@ -21,9 +26,9 @@ const Quadra = ({qntdPinos}) => {
     <>
       <div className="quadra">
         {
-          pinos.map(pinos => {
+          pinos.map((pinos, index) => {
             const classe = `pino pino_${pinos}`
-            return <img key={pinos} className={classe} src={pino}/>
+            return <img key={index} className={classe} src={pino}/>
           })
         }
         <img className="ball" src={bola}/>
