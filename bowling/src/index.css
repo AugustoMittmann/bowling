@@ -88,7 +88,7 @@
   background-color: green;
   display: grid;
   grid-template-columns: 350px 220px 1fr;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: 250px 200px 200px;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -243,6 +243,7 @@
     margin: 0 auto;
     background-color: green;
     display: grid;
+    grid-template-rows: repeat(5, auto);
     grid-template-columns: 350px 1fr;
     align-items: center;
     margin-bottom: 10px;
