@@ -17,6 +17,7 @@ function App() {
   function novoJogo() {
     setRecorde(recorde => [...recorde, resultado[9] || resultado[resultado.length-1]])
     setPrevJogadas([])
+    setQntdPinos(0)
   }
 
   const ultimaJogada = prevJogadas[prevJogadas.length - 1]; //ultimaJogada recebe o index da ultima jogada
@@ -45,7 +46,6 @@ function App() {
     })
   }
 
-  console.log(prevJogadas);
   return (
   <section>
     <div className="background">
@@ -82,7 +82,7 @@ function App() {
 
     {
       prevJogadas[9] !== undefined ? prevJogadas[9][0] === 10 || prevJogadas[9][0] + prevJogadas[9][1] === 10 ?
-      <div className='frame_especial'>
+      <div className='frame_especial frame'>
         <div className='round_1_especial'>{prevJogadas[9][0] !== undefined ? prevJogadas[9][0] : null}</div>
         <div className='round_2_especial'>{prevJogadas[9][0] === 10 ? (prevJogadas[10] !== undefined ? prevJogadas[10][0] : null) : prevJogadas[9][1]}</div>
         <div className='round_2_especial'>{
@@ -103,18 +103,11 @@ function App() {
     }
     </div>
 
-    <div className='buttons'>
-      {
-        arrayButtons.map((value) => {
-          return <button key={value} className='btn' onClick={() => click(value)}>{value}</button>
-        })
-      }
-    </div>
     <div className='novo_jogo'>
       <button className='btn_especial' onClick={() => novoJogo()}>Novo Jogo</button>
     </div>
     <div className='jogar_aleatorio'>
-      <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (round === 0 ? 10 : (10 - prevJogadas[prevJogadas.length-1][0]))))}>Jogar aleatório</button>
+      <button className='btn_especial' onClick={resultado.length < 11 ? () => click(Math.ceil(Math.random()* (round === 0 ? 10 : (10 - prevJogadas[prevJogadas.length-1][0])))) : null}>Jogar aleatório</button>
     </div>
     </div>
     </section>
