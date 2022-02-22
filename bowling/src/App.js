@@ -6,6 +6,7 @@ const { result } = require('./functions')
 function App() {
   const [prevJogadas, setPrevJogadas] = useState([])
   const [recorde, setRecorde] = useState([])
+  const [qntdPinos, setQntdPinos] = useState(0)
   const arrayFrames = [0, 1, 2, 3, 4, 5, 6, 7, 8]
   const arrayButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const resultado = useMemo(() => {
@@ -18,22 +19,23 @@ function App() {
     setPrevJogadas([])
   }
 
+  const ultimaJogada = prevJogadas[prevJogadas.length - 1]; //ultimaJogada recebe o index da ultima jogada
+  const round = (() => {  
+    if (!ultimaJogada) return 0;  //se não tem nada
+    if (ultimaJogada.length === 2) return 0;  //se já foram preenchidos as 2 jogadas
+    if (ultimaJogada[0] === 10) return 0; //se fez um strike antes
+  
+    return 1; //senão, retorna para a 2 jogada
+  })()    
+
   function click(buttonClick) {
     setPrevJogadas(prevJogadas => {
-      const ultimaJogada = prevJogadas[prevJogadas.length - 1]; //ultimaJogada recebe o index da ultima jogada
-      const round = (() => {  
-        if (!ultimaJogada) return 0;  //se não tem nada
-        if (ultimaJogada.length === 2) return 0;  //se já foram preenchidos as 2 jogadas
-        if (ultimaJogada[0] === 10) return 0; //se fez um strike antes
-      
-        return 1; //senão, retorna para a 2 jogada
-      })();
-      // Verificar o round ficou mais complexo que imaginei, mas acho que funcionaria
-    
     
       if (round === 0) {
+        setQntdPinos(buttonClick)
         return [...prevJogadas, [buttonClick]]; //se o round for 0, adiciona os pontos
       } else {  //se o round for 1, ou seja, segunda jogada
+        setQntdPinos(0)
         return prevJogadas.map((jogada, index) => { //map no histórico de jogadas
           const isLast = index === prevJogadas.length - 1;  //encontra a ultima posição
           if (!isLast) return jogada; //se não for a ultima jogada, retorna o que já tinha
@@ -59,7 +61,7 @@ function App() {
         <div className='cada_recorde recorde_4'>{recorde[4]}</div>
       </div>
 
-      <Quadra qntdPinos={0}/>
+      <Quadra qntdPinos={qntdPinos}/>
 
     <div className='container'>
     {
@@ -84,7 +86,7 @@ function App() {
         <div className='round_1_especial'>{prevJogadas[9][0] !== undefined ? prevJogadas[9][0] : null}</div>
         <div className='round_2_especial'>{prevJogadas[9][0] === 10 ? (prevJogadas[10] !== undefined ? prevJogadas[10][0] : null) : prevJogadas[9][1]}</div>
         <div className='round_2_especial'>{
-          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : prevJogadas[10][0]) : null
+          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : (prevJogadas[9][0] === 10? prevJogadas[10][1] : prevJogadas[10][0])) : null
         }</div>
 
         <div className='result_especial'> {resultado[9]}</div>
@@ -112,7 +114,7 @@ function App() {
       <button className='btn_especial' onClick={() => novoJogo()}>Novo Jogo</button>
     </div>
     <div className='jogar_aleatorio'>
-      <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (10)))}>Jogar aleatório</button>
+      <button className='btn_especial' onClick={() => click(Math.ceil(Math.random()* (round === 0 ? 10 : (10 - prevJogadas[prevJogadas.length-1][0]))))}>Jogar aleatório</button>
     </div>
     </div>
     </section>
