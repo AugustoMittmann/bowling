@@ -1,6 +1,5 @@
 const result = (arrayPontos) => {
   let resultado = []
-  console.log(arrayPontos);
   arrayPontos.forEach((value, index) => {
     if(value[0] === 10) { // strike
 

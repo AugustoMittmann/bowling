@@ -222,7 +222,7 @@
   color: darkgray;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1250px), (min-width: 901px) {
   .container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -243,24 +243,53 @@
     margin: 0 auto;
     background-color: green;
     display: grid;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(5, auto);
-    grid-template-columns: 350px 1fr;
+    height: 1000px;
     align-items: center;
     margin-bottom: 10px;
   }
+  .quadra {
+    grid-column: 1;
+    grid-row: 1/ span 2;
+  }
+  .container {
+    grid-column: 2;
+  }
+  .buttons {
+    grid-column: 2;
+  }
 }
 
-@media (max-width: 590px) {
+@media (max-width: 650px) {
   .background {
     margin: 0 auto;
     background-color: green;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 200px 200px;
+    grid-template-rows: repeat(9, 1fr);
     align-items: center;
     margin-bottom: 10px;
+    height: 1400px;
   }
-  .score {grid-row: 5;}
-  .quadra {grid-row: 4;}
-  .jogar_aleatorio {grid-row: 3;}
+  .score {
+    grid-row: 6;
+  }
+  .historico {
+    grid-row: 7;
+  }
+  .quadra {
+    grid-row: 1/ span 3;
+  }
+  .jogar_aleatorio {
+    grid-row: 8;
+  }
+  .container {
+    grid-row: 4;
+    grid-column: 1;
+  }
+  .buttons {
+    grid-row: 5;
+    grid-column: 1;
+  }
 }

@@ -43,8 +43,7 @@ function App() {
     })
   }
 
-  useEffect(() => {console.log(prevJogadas)}, [prevJogadas])
-
+  console.log(prevJogadas);
   return (
   <section>
     <div className="background">
@@ -84,9 +83,8 @@ function App() {
       <div className='frame_especial'>
         <div className='round_1_especial'>{prevJogadas[9][0] !== undefined ? prevJogadas[9][0] : null}</div>
         <div className='round_2_especial'>{prevJogadas[9][0] === 10 ? (prevJogadas[10] !== undefined ? prevJogadas[10][0] : null) : prevJogadas[9][1]}</div>
-
         <div className='round_2_especial'>{
-          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : prevJogadas[10][1]) : null
+          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : prevJogadas[10][0]) : null
         }</div>
 
         <div className='result_especial'> {resultado[9]}</div>
