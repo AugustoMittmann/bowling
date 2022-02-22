@@ -70,7 +70,7 @@ function App() {
       <Frames1to9 prevJogadas={prevJogadas} resultado={resultado}/>
 
       {
-        prevJogadas[9] === 10 || parseInt(prevJogadas[9]) + parseInt(prevJogadas[10]) === 10 ?
+        parseInt(prevJogadas[9]) === 10 || parseInt(prevJogadas[9]) + parseInt(prevJogadas[10]) === 10 ?
         <Frame10 round1={prevJogadas[9]} round2={prevJogadas[10]} round3={prevJogadas[11]} resultado={resultado[9]}/> :
         <Frame10Normal round1={prevJogadas[9]} round2={prevJogadas[10]} resultado={resultado[9]}/>
       }
