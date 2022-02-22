@@ -1,14 +1,15 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import './App.css';
 import Quadra from './Quadra'
-const { result } = require('./functions')
+import Frames1to9 from './components/Frame1to9';
+import Frame10 from './components/Frame10';
+import Frame10Normal from './components/Frame10Normal';
 
+const { result } = require('./functions')
 function App() {
   const [prevJogadas, setPrevJogadas] = useState([])
   const [recorde, setRecorde] = useState([])
   const [qntdPinos, setQntdPinos] = useState(0)
-  const arrayFrames = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  const arrayButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const resultado = useMemo(() => {
     return result(prevJogadas)
   }, [prevJogadas])
@@ -25,6 +26,7 @@ function App() {
     if (!ultimaJogada) return 0;  //se não tem nada
     if (ultimaJogada.length === 2) return 0;  //se já foram preenchidos as 2 jogadas
     if (ultimaJogada[0] === 10) return 0; //se fez um strike antes
+    if (resultado.length > 9) return 0;
   
     return 1; //senão, retorna para a 2 jogada
   })()    
@@ -64,44 +66,33 @@ function App() {
       <Quadra qntdPinos={qntdPinos}/>
 
     <div className='container'>
-    {
-      arrayFrames.map((value, index) => {
-        const frameClassName = `frame frame_${value}`
-        return <div key={value} className={frameClassName}> 
-        {
-          prevJogadas[index] !== undefined ? prevJogadas[index][0] === 10 ? 
-            <><div className='round_1'>{''}</div> 
-            <div className='round_2'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][0]}</div></> :
-            <><div className='round_1'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][0]}</div>
-            <div className='round_2'>{prevJogadas[index] === undefined ? '' : prevJogadas[index][1]}</div></> : null
-        }
-          <div className='result'> {resultado[value]}</div>
-        </div>
-      })
-    }
 
-    {
-      prevJogadas[9] !== undefined ? prevJogadas[9][0] === 10 || prevJogadas[9][0] + prevJogadas[9][1] === 10 ?
-      <div className='frame_especial frame'>
-        <div className='round_1_especial'>{prevJogadas[9][0] !== undefined ? prevJogadas[9][0] : null}</div>
-        <div className='round_2_especial'>{prevJogadas[9][0] === 10 ? (prevJogadas[10] !== undefined ? prevJogadas[10][0] : null) : prevJogadas[9][1]}</div>
-        <div className='round_2_especial'>{
-          prevJogadas[10] !== undefined ? (prevJogadas[10][0] === 10 ? (prevJogadas[11] !== undefined ? prevJogadas[11][0] : (prevJogadas[11] !== undefined ? prevJogadas[11][0] : null)) : (prevJogadas[9][0] === 10? prevJogadas[10][1] : prevJogadas[10][0])) : null
-        }</div>
+      <Frames1to9 prevJogadas={prevJogadas} resultado={resultado}/>
 
-        <div className='result_especial'> {resultado[9]}</div>
-      </div> 
-      : <div className='frame'>
-      <div className='round_1'>{prevJogadas[9] !== undefined ? prevJogadas[9][0] : null}</div>
-      <div className='round_2'>{prevJogadas[9] !== undefined ? prevJogadas[9][1] : null}</div>
-      <div className='result'> {resultado[9]}</div>
-    </div> : <div className='frame'>
-        <div className='round_1'>{prevJogadas[9] !== undefined ? prevJogadas[9][0] : null}</div>
-        <div className='round_2'>{prevJogadas[9] !== undefined ? prevJogadas[9][1] : null}</div>
-        <div className='result'> {resultado[9]}</div>
-      </div>
-    }
+      {
+        prevJogadas[9] === 10 || parseInt(prevJogadas[9]) + parseInt(prevJogadas[10]) === 10 ?
+        <Frame10 round1={prevJogadas[9]} round2={prevJogadas[10]} round3={prevJogadas[11]} resultado={resultado[9]}/> :
+        <Frame10Normal round1={prevJogadas[9]} round2={prevJogadas[10]} resultado={resultado[9]}/>
+      }
     </div>
+
+
+    <div className='buttons'>
+      <button className='btn' onClick={() => click(0)}>{0}</button>
+      <button className='btn' onClick={() => click(1)}>{1}</button>
+      <button className='btn' onClick={() => click(2)}>{2}</button>
+      <button className='btn' onClick={() => click(3)}>{3}</button>
+      <button className='btn' onClick={() => click(4)}>{4}</button>
+      <button className='btn' onClick={() => click(5)}>{5}</button>
+      <button className='btn' onClick={() => click(6)}>{6}</button>
+      <button className='btn' onClick={() => click(7)}>{7}</button>
+      <button className='btn' onClick={() => click(8)}>{8}</button>
+      <button className='btn' onClick={() => click(9)}>{9}</button>
+      <button className='btn' onClick={() => click(10)}>{10}</button>
+    </div>
+
+
+
 
     <div className='novo_jogo'>
       <button className='btn_especial' onClick={() => novoJogo()}>Novo Jogo</button>
